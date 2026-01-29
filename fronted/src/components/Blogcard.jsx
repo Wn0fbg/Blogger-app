@@ -3,13 +3,15 @@ const Blogcard = (props) => {
 
   return (
     <div className="bg-white shadow-md overflow-hidden rounded-xl">
-      <div className="flex flex-col w-full">
-        <img className="h-87.5 w-150" src={blogdata.image} alt="" />
-        <div className="p-2">
-          <h2 className="mt-1 text-xl text-left">{blogdata.title}</h2>
-          <p className="text-sm text-left opacity-70">{blogdata.description}</p>
+        <div className="flex flex-col w-full">
+          <img className="h-87.5 w-150" src={blogdata.image} alt="" />
+          <div className="p-2">
+            <h2 className="mt-1 text-xl text-left">{blogdata.title}</h2>
+            <p className="text-sm text-left opacity-70">
+              {blogdata.description}
+            </p>
+          </div>
         </div>
-      </div>
     </div>
   );
 };
