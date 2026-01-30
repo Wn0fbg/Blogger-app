@@ -8,3 +8,6 @@ npm init
 
 /backend
 npm init
+npm i --save express
+npm install --save-dev nodemon
+npm install pg
