@@ -1,7 +1,29 @@
-import { Link } from "react-router-dom";
 import Blogcard from "../components/Blogcard";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getBlogs } from "../api/Api";
+import { useState } from "react";
 
-const Home = (props) => {
+const Home = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const [blogs, setBlogs] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const allBlogs = await getBlogs();
+      setBlogs(allBlogs.data);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const allBlogs = await getBlogs(searchParams.get("category"));
+      setBlogs(allBlogs.data);
+    }
+    fetchData();
+  }, [searchParams]);
+
   const data = [
     {
       title: "Lorem ipsum dolor sit amet",
@@ -95,17 +117,16 @@ const Home = (props) => {
   ];
 
   return (
-    <div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-        {data.map((i) => {
-          return (
-            <Link to="/blog">
-              <Blogcard blogdata={i} />
-            </Link>
-          );
-        })}
+    <>
+      <div>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {blogs &&
+            blogs.map((x, i) => {
+              return <Blogcard key={i} blogdata={x} />;
+            })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
