@@ -35,10 +35,18 @@ const Layout = () => {
       </div>
 
       {/* Body */}
-      <div className="flex">
-        <Outlet></Outlet>
+      <div className="flex mx-auto px-5 md:px-20">
+        <div className="mt-5 mb-5 min-h-162.5 w-full">
+          <Outlet></Outlet>
+        </div>
       </div>
+
       {/* Footer */}
+      <div className="flex bg-slate-800">
+        <div className="flex mx-auto px-20 py-20  items-center justify-center">
+          <h3 className="text-gray-400 text-2xl">Blogger</h3>
+        </div>
+      </div>
     </div>
   );
 };
