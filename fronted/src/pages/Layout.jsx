@@ -14,12 +14,14 @@ const Layout = () => {
       {/* Header */}
       <div className="border-b">
         <div className="container px-5 py-5 flex justify-between">
-          <span className="font-extrabold text-2xl">Blogger</span>
+          <Link to="/">
+            <span className="font-extrabold text-2xl">Blogger</span>
+          </Link>
           <div className="flex">
             <ul className="flex">
               {menu.map((item, i) => {
                 return (
-                  <li>
+                  <li key={i}>
                     <Link className="p-2 flex justify-center items-center">
                       <span>{item.text}</span>
                     </Link>
@@ -28,7 +30,7 @@ const Layout = () => {
               })}
             </ul>
             <button className="bg-slate-500 text-white px-2 py-1 rounded">
-              <Link>+ New Post</Link>
+              <Link to="/create">+ New Post</Link>
             </button>
           </div>
         </div>
