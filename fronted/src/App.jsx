@@ -1,9 +1,8 @@
+import { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
-import Blog from "./pages/Blog";
-import Createblog from "./pages/Createblog";
 
 function App() {
   return (
@@ -11,9 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/create" element={<Createblog />} />
+            <Route path="/" element={<Home />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
