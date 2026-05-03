@@ -6,4 +6,6 @@ npm i --save react-router-dom react-icons
 backend
 npm init
 npm i --save express
-npm install --save-dev nodemon
+npm install --save-dev nodemon (npx nodemon app.js)
+npm i pg
+npm i multer
