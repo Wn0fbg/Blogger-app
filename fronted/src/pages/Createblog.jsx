@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { uploadFile } from "../api/Api";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { uploadFile, createBlog } from "../api/Api";
 
 const Createblog = () => {
   const [value, setValue] = useState("");
@@ -15,11 +13,23 @@ const Createblog = () => {
 
   const [newBlog, setNewBlog] = useState(blankBlog);
 
-  const handleUpdate = async () => {
-    let uploadedFile = await uploadFile(event.target.files[0]);
+  const handleUpdate = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    let uploadedFile = await uploadFile(file);
 
-    if (uploadedFile.path) {
+    if (uploadedFile?.path) {
       setNewBlog({ ...newBlog, image: uploadedFile.path });
+    }
+  };
+
+  const handleSubmit = async () => {
+    let createdBlog = await createBlog(newBlog);
+    if (createBlog.desc == 1) {
+      setNewBlog(blankBlog);
+      alert("Blog added successfuly.");
+    } else {
+      alert("Failed to create blog");
     }
   };
 
@@ -36,6 +46,7 @@ const Createblog = () => {
         <h1 className="text-2xl font-extrabold mb-5">Create blog post</h1>
         <div className="flex flex-col">
           <small>{JSON.stringify(newBlog)}</small>
+
           <label className="ml-1 text-gray-500">Title</label>
           <input
             value={newBlog.title}
@@ -43,6 +54,7 @@ const Createblog = () => {
             type="text"
             className="h-10 border border-white bg-gray-300 rounded my-2 p-2"
           />
+
           <label className="ml-1 text-gray-500">Category</label>
           <select
             value={newBlog.category}
@@ -54,33 +66,36 @@ const Createblog = () => {
             <option value="" default disabled>
               Select category
             </option>
-            {menu.map((item, i) => {
-              return (
-                <option value={item.text} key={i}>
-                  {item.text}
-                </option>
-              );
-            })}
+            {menu.map((item, i) => (
+              <option value={item.text} key={i}>
+                {item.text}
+              </option>
+            ))}
           </select>
+
           <label className="ml-1 text-gray-500">Image</label>
           <input
-            onChange={(e) => handleUpdate(e)}
+            onChange={handleUpdate}
             type="file"
             className="border-white bg-gray-300 rounded my-2 p-2"
           />
+
           <label className="ml-1 text-gray-500">Post</label>
-          {/* <textarea
+          <textarea
             value={newBlog.post}
-            onChange={() => {
-              setNewBlog({ ...newBlog, post: e });
+            onChange={(e) => {
+              setNewBlog({ ...newBlog, post: e.target.value });
             }}
             cols="30"
             rows="2"
             placeholder="write the post"
             className="border-white bg-gray-300 rounded my-2 p-2"
-          ></textarea> */}
-          <ReactQuill theme="snow" value={value} onChange={setValue} />;
-          <button className="bg-slate-500 text-white h-8 w-25 mt-2 rounded">
+          ></textarea>
+
+          <button
+            onClick={() => handleSubmit()}
+            className="bg-slate-500 text-white h-8 w-25 mt-2 rounded"
+          >
             Submit
           </button>
         </div>
