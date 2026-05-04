@@ -1,4 +1,28 @@
+import { useState } from "react";
+import { uploadFile } from "../api/Api";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 const Createblog = () => {
+  const [value, setValue] = useState("");
+
+  const blankBlog = {
+    title: "",
+    image: "",
+    post: "",
+    category: "",
+  };
+
+  const [newBlog, setNewBlog] = useState(blankBlog);
+
+  const handleUpdate = async () => {
+    let uploadedFile = await uploadFile(event.target.files[0]);
+
+    if (uploadedFile.path) {
+      setNewBlog({ ...newBlog, image: uploadedFile.path });
+    }
+  };
+
   const menu = [
     { text: "Nature", path: "/" },
     { text: "Travel", path: "/" },
@@ -11,14 +35,25 @@ const Createblog = () => {
       <div className="bg-slate-200 w-[60%] p-5 rounded-2xl">
         <h1 className="text-2xl font-extrabold mb-5">Create blog post</h1>
         <div className="flex flex-col">
+          <small>{JSON.stringify(newBlog)}</small>
           <label className="ml-1 text-gray-500">Title</label>
           <input
+            value={newBlog.title}
+            onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
             type="text"
             className="h-10 border border-white bg-gray-300 rounded my-2 p-2"
           />
-
           <label className="ml-1 text-gray-500">Category</label>
-          <select className="h-10 border border-white bg-gray-300 rounded my-2 p-2">
+          <select
+            value={newBlog.category}
+            onChange={(e) =>
+              setNewBlog({ ...newBlog, category: e.target.value })
+            }
+            className="h-10 border border-white bg-gray-300 rounded my-2 p-2"
+          >
+            <option value="" default disabled>
+              Select category
+            </option>
             {menu.map((item, i) => {
               return (
                 <option value={item.text} key={i}>
@@ -27,21 +62,24 @@ const Createblog = () => {
               );
             })}
           </select>
-
           <label className="ml-1 text-gray-500">Image</label>
           <input
+            onChange={(e) => handleUpdate(e)}
             type="file"
             className="border-white bg-gray-300 rounded my-2 p-2"
           />
-
           <label className="ml-1 text-gray-500">Post</label>
-          <textarea
+          {/* <textarea
+            value={newBlog.post}
+            onChange={() => {
+              setNewBlog({ ...newBlog, post: e });
+            }}
             cols="30"
             rows="2"
             placeholder="write the post"
             className="border-white bg-gray-300 rounded my-2 p-2"
-          />
-
+          ></textarea> */}
+          <ReactQuill theme="snow" value={value} onChange={setValue} />;
           <button className="bg-slate-500 text-white h-8 w-25 mt-2 rounded">
             Submit
           </button>
