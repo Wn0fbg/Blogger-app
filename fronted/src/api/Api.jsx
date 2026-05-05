@@ -26,8 +26,16 @@ export const createBlog = (data) => {
     });
 };
 
-export const getBlogbyid = () => {
+export const getBlogbyid = (id) => {
   // return blog by id
+  return axios
+    .get(apiURL + "/blog/" + id)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 export const uploadFile = (file) => {

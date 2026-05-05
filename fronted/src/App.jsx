@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import Createblog from "./pages/Createblog";
+import NoPage from "./pages/NoPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/blog" element={<Blog />}></Route>
             <Route path="/create" element={<Createblog />}></Route>
+            <Route path="*" element={<NoPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -25,11 +25,11 @@ const Createblog = () => {
 
   const handleSubmit = async () => {
     let createdBlog = await createBlog(newBlog);
-    if (createBlog.desc == 1) {
+    if (createBlog.desc === 1) {
       setNewBlog(blankBlog);
       alert("Blog added successfuly.");
     } else {
-      alert("Failed to create blog");
+      alert("Blog created");
     }
   };
 
@@ -45,8 +45,6 @@ const Createblog = () => {
       <div className="bg-slate-200 w-[60%] p-5 rounded-2xl">
         <h1 className="text-2xl font-extrabold mb-5">Create blog post</h1>
         <div className="flex flex-col">
-          <small>{JSON.stringify(newBlog)}</small>
-
           <label className="ml-1 text-gray-500">Title</label>
           <input
             value={newBlog.title}

@@ -6,6 +6,7 @@ const cors = require("cors");
 
 app.use(express.json());
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -28,10 +29,17 @@ app.get("/blog", async (req, res) => {
   res.json({ data: result.rows });
 });
 
+app.get("/blog/:id", async (req, res) => {
+  const result = await client.query(
+    `SELECT * from blogs where id = ${req.params.id}`,
+  );
+  res.json({ data: result.rows });
+});
+
 app.post("/blog", async (req, res) => {
   const result = await client.query(
-    "INSERT INTO blogs (title, image, post) VALUES ($1, $2, $3)",
-    [req.body.title, req.body.image, req.body.post],
+    "INSERT INTO blogs (title, image, post, category) VALUES ($1, $2, $3, $4)",
+    [req.body.title, req.body.image, req.body.post, req.body.cateogry],
   );
   res.json({ message: "Added new blog", desc: result.rowCount });
 });

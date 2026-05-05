@@ -1,31 +1,40 @@
+import { useState } from "react";
+import { getBlogbyid } from "../api/Api";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+
 const Blog = () => {
+  let { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const apiURL = "http://localhost:3000/";
+
+  useEffect(() => {
+    async function fetchData() {
+      const blogData = await getBlogbyid(id);
+      setBlog(blogData.data[0]);
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="flex justify-center items-center">
-      <div className="flex flex-col w-[60%] overflow-hidden">
-        <h1 className="mt-1 text-4xl font-extrabold">
-          Lorem ipsum dolor sit amet.
-        </h1>
+      {blog && (
+        <div className="flex flex-col w-[60%] overflow-hidden">
+          <h1 className="mt-1 text-4xl font-extrabold">{blog.title}</h1>
 
-        <div className="flex mt-4 mb-4">
-          <small>2 may, 2026</small>
+          <div className="flex mt-4 mb-4">
+            <small>{blog.createdon}</small>
+          </div>
+          <img
+            src={apiURL + blog.image}
+            alt={blog.title}
+            className="rounded-lg"
+          />
+          <div>
+            <h2>{blog.post}</h2>
+          </div>
         </div>
-        <img
-          src="https://images.unsplash.com/photo-1777026050794-a5e4ef7cd254?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0MHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-          className="rounded-lg"
-        />
-        <div>
-          <h2 className="text-2xl mt-2 mb-2">Lorem, ipsum dolor.</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ex
-            aperiam magnam, vel molestias voluptates ut cum non numquam saepe
-            veritatis aliquid fuga natus accusantium fugit nihil provident a.
-            Eveniet a tempore dolores ea accusamus. Impedit fuga necessitatibus
-            quia mollitia? Ullam corporis ipsum ex illo molestiae quo totam
-            rerum ducimus!
-          </p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
